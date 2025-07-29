@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>NÚBIA PONTES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ... (mesmo CSS do código anterior, omitido para brevidade) ... */
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #fff;
+      color: #333;
+      padding: 20px;
+      position: relative;
+    }
+    h1 {
+      text-align: center;
+      color: #e91e63;
+      font-size: 36px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+    .warning {
+      background-color: #ffe4f1;
+      border-left: 4px solid #e91e63;
+      padding: 15px;
+      margin-bottom: 30px;
+      font-weight: 500;
+      color: #90002e;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-bottom: 40px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #e91e63;
+      font-weight: bold;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 2px solid #e91e63;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #e91e63;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #d81b60;
+    }
+    .hidden {
+      display: none;
+    }
+    h2 {
+      color: #000;
+      border-bottom: 2px solid #e91e63;
+      padding-bottom: 5px;
+      margin-top: 40px;
+    }
+    .promo {
+      background-color: #fde4f0;
+      border: 2px solid #e91e63;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 18px;
+      color: #b0003a;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      color: #555;
+      font-family: 'Poppins', sans-serif;
+      padding-top: 20px;
+      border-top: 2px solid #e91e63;
+    }
+    footer a {
+      color: #e91e63;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    /* Botão Voltar ao topo */
+    #btnTopo {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 50%;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 1000;
+      transition: background 0.3s ease;
+      user-select: none;
+      width: 40px;
+      height: 40px;
+      line-height: 24px;
+      text-align: center;
+    }
+    #btnTopo:hover {
+      background-color: #d81b60;
+    }
+    .map-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    .map-container iframe {
+      position: absolute;
+      top:0; left:0;
+      width: 100%;
+      height: 100%;
+      border:0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>NÚBIA PONTES</h1>
+  <div class="subtitle">nail designer, massoterapeuta humanizada , depiladora e designer de sobrancelha</div>
+
+  <div class="warning">
+    Queridas clientes, em caso de desistência avisar com 3 dias de antecedência, <br />
+    Caso contrário será cobrado metade do valor do procedimento/
+    Em caso de falta no combo da massagem voçê perderá a sessão do combo automaticamente.<br />
+    <b>NÚBIA PONTES AGRADECE!</b>
+  </div>
+  <div class="container promo" id="promoBanner">
+    <!-- Texto da promoção será inserido aqui via JS -->
+  </div>
+
+  <div class="container client">
+    <h2>Agendamento</h2>
+
+    <label for="dia">Escolha o dia disponível:</label>
+    <select id="dia"></select>
+
+    <label for="horario">Escolha o horário:</label>
+    <select id="horario"></select>
+
+    <label for="procedure">Escolha o procedimento:</label>
+    <select id="procedure"></select>
+
+    <label for="nomeCliente">Seu nome completo:</label>
+    <input type="text" id="nomeCliente" placeholder="Digite seu nome" />
+
+    <button onclick="enviarWhatsApp()">Enviar para WhatsApp</button>
+  </div>
+
+  <div class="container admin">
+    <h2>Área Administrativa</h2>
+    <input type="password" id="senha" placeholder="Digite a senha para acessar" />
+    <button onclick="verificarSenha()">Entrar</button>
+
+    <div id="painelAdmin" class="hidden">
+      <label>Editar dias disponíveis (um por linha):</label>
+      <textarea id="diasInput" rows="4" placeholder="Ex: 29/07&#10;30/07"></textarea>
+
+      <label>Editar horários disponíveis (um por linha):</label>
+      <textarea id="horariosInput" rows="4" placeholder="Ex: 14h&#10;15h30"></textarea>
+
+      <label>Editar procedimentos e valores (um por linha):</label>
+      <textarea id="procedimentosInput" rows="6" placeholder="Ex:&#10;Massagem Relaxante - R$80&#10;Manicure Simples - R$30"></textarea>
+
+      <label>Editar texto da promoção:</label>
+      <textarea id="promoInput" rows="3" placeholder="Digite o texto da promoção ou pacote"></textarea>
+
+      <button onclick="salvarDados()">Salvar alterações</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Localização</h2>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.099605326448!2d-46.54129288444765!3d-23.462582866275427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ceea4a1bce71d7%3A0xa509be910f294be!2sDiogenes%20Domingues%20de%20Godoi%2C%20451%20-%20Guarulhos%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1690567890123!5m2!1spt-BR!2sbr"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+
+  <footer>
+    <p style="margin-bottom: 6px">
+      📍 <strong>DIRCE FORNARI FRANCO,EM FRENTE AO NÚMERO 71 (MURO DE TIJOLOS)</strong>
+    </p>
+    <p style="margin-bottom: 6px">
+      💬 WhatsApp:
+      <a href="https://wa.me/5511968525529" target="_blank" style="color: #e91e63; text-decoration: none">
+        <strong>(11) 96852-5529</strong>
+      </a>
+    </p>
+    <p style="margin-bottom: 6px">
+      📸 Instagram:
+      <a href="https://instagram.com/nubia_pontes_massoterapeuta" target="_blank" style="color: #e91e63; text-decoration: none">
+        <strong>@nubia_pontes_massoterapeuta</strong>
+      </a>
+    </p>
+  </footer>
+
+  <button id="btnTopo" title="Voltar ao topo" onclick="topo()">↑</button>
+
+  <script>
+    const senhaCorreta = "986285"; // Troque aqui sua senha
+
+    function verificarSenha() {
+      const senha = document.getElementById("senha").value;
+      if (senha === senhaCorreta) {
+        document.getElementById("painelAdmin").classList.remove("hidden");
+        carregarDados();
+      } else {
+        alert("Senha incorreta.");
+      }
+    }
+
+    function salvarDados() {
+      const procedimentos = document.getElementById("procedimentosInput").value;
+      const dias = document.getElementById("diasInput").value;
+      const horarios = document.getElementById("horariosInput").value;
+      const promoTexto = document.getElementById("promoInput").value;
+      localStorage.setItem("procedimentos", procedimentos);
+      localStorage.setItem("dias", dias);
+      localStorage.setItem("horarios", horarios);
+      localStorage.setItem("promocao", promoTexto);
+      alert("Dados salvos com sucesso!");
+      carregarDados();
+    }
+
+    function carregarDados() {
+      const procedimentoSelect = document.getElementById("procedure");
+      const diaSelect = document.getElementById("dia");
+      const horarioSelect = document.getElementById("horario");
+      const promoBanner = document.getElementById("promoBanner");
+      const promoInput = document.getElementById("promoInput");
+
+      const procedimentos = localStorage.getItem("procedimentos") || "";
+      const dias = localStorage.getItem("dias") || "";
+      const horarios = localStorage.getItem("horarios") || "";
+      const promocao = localStorage.getItem("promocao") || "";
+
+      procedimentoSelect.innerHTML = "";
+      diaSelect.innerHTML = "";
+      horarioSelect.innerHTML = "";
+
+      procedimentos.split("\n").forEach(p => {
+        const texto = p.trim();
+        if (texto) {
+          const option = document.createElement("option");
+          option.value = texto;
+          option.textContent = texto;
+          procedimentoSelect.appendChild(option);
+        }
+      });
+
+      dias.split("\n").forEach(d => {
+        const texto = d.trim();
+        if (texto) {
+          const option = document.createElement("option");
+          option.value = texto;
+          option.textContent = texto;
+          diaSelect.appendChild(option);
+        }
+      });
+
+      horarios.split("\n").forEach(h => {
+        const texto = h.trim();
+        if (texto) {
+          const option = document.createElement("option");
+          option.value = texto;
+          option.textContent = texto;
+          horarioSelect.appendChild(option);
+        }
+      });
+
+      if(promocao.trim() !== "") {
+        promoBanner.textContent = promocao;
+        if(promoInput) promoInput.value = promocao;
+      } else {
+        promoBanner.textContent = "🎉 Promoções e pacotes especiais aparecerão aqui!";
+        if(promoInput) promoInput.value = "";
+      }
+    }
+
+    function enviarWhatsApp() {
+      const procedimento = document.getElementById("procedure").value;
+      const dia = document.getElementById("dia").value;
+      const horario = document.getElementById("horario").value;
+      const nome = document.getElementById("nomeCliente").value.trim();
+
+      if (!nome || !procedimento || !dia || !horario) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+
+      const msg = `Olá, me chamo ${nome} e gostaria de agendar:\n📅 Dia: ${dia}\n🕒 Horário: ${horario}\n📌 Procedimento: ${procedimento}\n\n✅ *Aguarde nossa confirmação!* Entraremos em contato em breve. 💖\n— Núbia Pontes`;
+      const telefone = "5511968525529";
+      const link = `https://wa.me/${telefone}?text=${encodeURIComponent(msg)}`;
+      window.open(link, "_blank");
+    }
+
+    const btnTopo = document.getElementById("btnTopo");
+    window.onscroll = function () {
+      if (
+        document.body.scrollTop > 200 ||
+        document.documentElement.scrollTop > 200
+      ) {
+        btnTopo.style.display = "block";
+      } else {
+        btnTopo.style.display = "none";
+      }
+    };
+
+    function topo() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    window.onload = carregarDados;
+  </script>
+</body>
+</html>
